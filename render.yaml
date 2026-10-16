@@ -1,0 +1,18 @@
+# Free test deployment. No paid disk or database is provisioned.
+services:
+  - type: web
+    name: wordchamp
+    runtime: docker
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TRUST_PROXY
+        value: "1"
+      - key: DB_PATH
+        value: /app/var/wordchamp.sqlite
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: TEACHER_PASSWORD
+        sync: false

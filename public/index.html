@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="sv">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0b1427" />
+    <title>WordChamp · 15 in a row</title>
+    <link rel="icon" href="/mark.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <a class="brand" href="/" aria-label="WordChamp startsida"
+        ><span class="brand-icon">W<span>✦</span></span
+        >Word<span class="accent">Champ</span></a
+      >
+      <div class="header-right">
+        <span class="school-label">THE VOCABULARY CHALLENGE</span
+        ><a href="#teacher" class="quiet" id="teacher-link">Lärarrummet →</a
+        ><button class="quiet hidden" id="logout">Logga ut</button>
+      </div>
+    </header>
+    <main id="app"></main>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <dialog id="editor"></dialog>
+    <footer>
+      <span>WORDCHAMP</span><span>Small words. Big wins.</span
+      ><span>Made for the classroom ✦</span>
+    </footer>
+  </body>
+</html>

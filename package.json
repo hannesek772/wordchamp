@@ -1,0 +1,45 @@
+{
+  "name": "wordchamp",
+  "version": "1.0.0",
+  "description": "WordChamp classroom vocabulary game",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node --test test/*.test.js",
+    "test:browser": "playwright test",
+    "password": "node password.js",
+    "configure": "node configure.js",
+    "backup": "node backup.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hannesek772/wordchamp.git"
+  },
+  "license": "UNLICENSED",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "csv-parse": "^7.0.3",
+    "dotenv": "^18.0.8",
+    "exceljs": "^4.4.0",
+    "express": "^5.3.0",
+    "express-rate-limit": "^8.7.1",
+    "express-session": "^1.19.0",
+    "helmet": "^8.3.0",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "prettier": "^3.9.10",
+    "socket.io-client": "^4.8.4"
+  },
+  "overrides": {
+    "uuid": "11.1.1"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  }
+}
