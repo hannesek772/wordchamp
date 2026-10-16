@@ -108,6 +108,15 @@ test("real HTTP + Socket.IO: auth, QR, imports, multiplayer, reconnect, privacy,
     assert.equal((await req("/vocabulary/" + inserted, "DELETE")).status, 200);
     const state = (await req("/games", "POST")).data;
     const g = server.games.get(state.pin);
+    assert.equal(
+      (
+        await req(`/games/${state.pin}/start`, "POST", {
+          weeks: [38, 39],
+          direction: "en-sv",
+        })
+      ).status,
+      400,
+    );
     const qr = await fetch(url + `/api/games/${state.pin}/qr`, {
       headers: { Cookie: cookie },
     });

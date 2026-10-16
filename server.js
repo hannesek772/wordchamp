@@ -301,6 +301,8 @@ export function createApp(config = {}) {
           `SELECT * FROM vocabulary WHERE week IN (${weeks.map(() => "?").join(",")})`,
         )
         .all(...weeks.map(Number));
+      if (!g.players.size)
+        throw Error("Vänta tills minst en elev har anslutit innan du startar.");
       g.start(pool, req.body.direction);
       broadcast(g);
       for (const s of io.sockets.sockets.values())

@@ -73,6 +73,7 @@ export class Game {
     this.direction = direction;
     this.round++;
     this.status = "active";
+    this.roundPlayers = new Set([...this.players.values()].map((p) => p.id));
     this.winners = [];
     this.stats = new Map();
     this.answerCount = 0;
@@ -83,7 +84,8 @@ export class Game {
       Object.assign(p, { streak: 0, rank: null, question: null, queue: [] });
   }
   question(p) {
-    if (this.status !== "active" || p.rank) return null;
+    if (this.status !== "active" || !this.roundPlayers.has(p.id) || p.rank)
+      return null;
     if (p.question) return this.publicQuestion(p.question);
     if (!p.queue.length) p.queue = shuffle(this.words);
     const v = p.queue.pop();
@@ -132,6 +134,7 @@ export class Game {
   answer(p, id, choice) {
     if (
       this.status !== "active" ||
+      !this.roundPlayers.has(p.id) ||
       p.rank ||
       !p.question ||
       p.question.id !== id ||
@@ -165,7 +168,7 @@ export class Game {
       streak: p.streak,
       rank: p.rank,
     };
-    if (this.winners.length >= Math.min(3, this.players.size)) this.end();
+    if (this.winners.length >= Math.min(3, this.roundPlayers.size)) this.end();
     return result;
   }
   end() {
@@ -173,7 +176,7 @@ export class Game {
     this.status = "ended";
     this.result = {
       round: this.round,
-      participants: this.players.size,
+      participants: this.roundPlayers.size,
       answers: this.answerCount,
       correct: this.correctCount,
       percentage: this.answerCount
@@ -195,6 +198,11 @@ export class Game {
   }
   state() {
     return {
+      roundPlayerIds: [...(this.roundPlayers ?? [])],
+      waiting:
+        this.status === "active"
+          ? this.players.size - this.roundPlayers.size
+          : 0,
       pin: this.pin,
       status: this.status,
       round: this.round,

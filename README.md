@@ -29,7 +29,7 @@ Molnmiljöer med skrivskyddad hemkatalog kan använda `npm ci --cache /tmp/wordc
 5. Första tre till 15 vinner. Vid en eller två deltagare räcker det att alla kommer i mål. Även frånkopplade deltagare behåller sin plats och kan återansluta; läraren kan alltid avsluta manuellt.
 6. Se pallplats, antal deltagare, andel rätt och glosor med högst felprocent. Starta en ny runda i samma rum utan att eleverna ansluter igen.
 
-Elever kan ansluta mitt i en runda. Slumpningen använder i första hand oanvända glosor bland valda veckor. När urvalet är uttömt fylls rundan med tidigare glosor, utan dubbletter inom rundans 30 frågor. Samma glosor kan återkomma när en elev fortsätter spela. Läromedel och alternativa svenska översättningar bevaras. Alternativ används för att undvika konkurrerande svar; spelet är flervalsfrågor, inte fritext.
+Elever väntar i ett väntrum tills läraren trycker på start. Start kräver minst en ansluten elev. Elever som ansluter efter rundstart väntar till nästa runda; befintliga deltagare kan fortfarande återansluta efter avbrott. Sena elever räknas inte som deltagare i den redan pågående rundan. Slumpningen använder i första hand oanvända glosor bland valda veckor. När urvalet är uttömt fylls rundan med tidigare glosor, utan dubbletter inom rundans 30 frågor. Samma glosor kan återkomma när en elev fortsätter spela. Läromedel och alternativa svenska översättningar bevaras. Alternativ används för att undvika konkurrerande svar; spelet är flervalsfrågor, inte fritext.
 
 Öppna **⛶-knappen** i resultatlistan för projektorläge. Escape lämnar helskärm. De 15 främsta visas, vinnarna först och sedan aktiva efter aktuell streak. Placering avgörs av i vilken ordning giltiga svar behandlas på servern, även när flera svar kommer samtidigt.
 

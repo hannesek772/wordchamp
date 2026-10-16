@@ -86,7 +86,10 @@ test("duplicate nicknames rejected, token resumes, late joiners and next rounds 
   g.start(words, "mixed");
   answer(g, p);
   const late = g.join("Alex");
-  assert.ok(g.question(late));
+  assert.equal(g.question(late), null);
+  assert.throws(() => g.answer(late, "forged", 0));
+  assert.equal(g.join("", p.token), p);
+  assert.ok(g.question(p));
   g.end();
   g.start(words, "sv-en");
   assert.equal(p.streak, 0);
@@ -94,6 +97,7 @@ test("duplicate nicknames rejected, token resumes, late joiners and next rounds 
   assert.equal(g.players.size, 2);
   assert.equal(g.round, 2);
   assert.equal(g.question(p).direction, "sv-en");
+  assert.ok(g.question(late));
 });
 test("round vocabulary prioritizes unused words, then reuses exhausted pool", () => {
   const g = new Game("123456");
@@ -117,4 +121,20 @@ test("minimum pool and direction validation", () => {
   const g = new Game("123456");
   assert.throws(() => g.start(words.slice(0, 25), "en-sv"));
   assert.throws(() => g.start(words, "invalid"));
+});
+
+test("waiting before start and late arrivals cannot change the winner threshold", () => {
+  const g = new Game("123456");
+  const p = g.join("Ready");
+  assert.equal(g.question(p), null);
+  assert.throws(() => g.answer(p, "forged", 0));
+  g.start(words, "en-sv");
+  const late = g.join("Waiting");
+  assert.equal(g.question(late), null);
+  for (let i = 0; i < 15; i++) answer(g, p);
+  assert.equal(g.status, "ended");
+  assert.equal(g.result.participants, 1);
+  g.start(words, "en-sv");
+  assert.ok(g.question(late));
+  assert.equal(g.roundPlayers.size, 2);
 });

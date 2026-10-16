@@ -19,6 +19,7 @@ test("teacher + two mobile students: live answers, refresh, round results, next 
   await expect(page.getByText("750 glosor · 30 veckor")).toBeVisible();
   await page.getByRole("button", { name: "+ Nytt spelrum" }).click();
   await expect(page.locator("#controls")).toBeVisible();
+  await expect(page.locator("#start-round")).toBeDisabled();
   const pin = (await page.locator("#controls .game-pin").innerText()).trim();
   const mobile = await browser.newContext({
     viewport: { width: 390, height: 844 },
@@ -42,11 +43,28 @@ test("teacher + two mobile students: live answers, refresh, round results, next 
   await b.getByLabel("Ditt smeknamn").fill("Alex");
   await b.getByRole("button", { name: "Hoppa in i spelet" }).click();
   await expect(page.getByText("2 deltagare · 2 online")).toBeVisible();
+  await expect(a.locator(".answer")).toHaveCount(0);
+  await expect(b.locator(".answer")).toHaveCount(0);
   await page.locator('.week input[value="38"]').check();
   await page.locator('.week input[value="39"]').check();
   await page.getByRole("button", { name: "Starta rundan →" }).click();
   await expect(a.locator(".answer")).toHaveCount(4);
   await expect(b.locator(".answer")).toHaveCount(4);
+  const lateContext = await browser.newContext();
+  const late = await lateContext.newPage();
+  await late.goto("/?pin=" + pin);
+  await late.getByLabel("Ditt smeknamn").fill("Sen elev");
+  await late.getByRole("button", { name: "Hoppa in i spelet" }).click();
+  await expect(
+    late.getByText("Rundan har redan startat.", { exact: false }),
+  ).toBeVisible();
+  await expect(late.locator(".answer")).toHaveCount(0);
+  await late.reload();
+  await expect(
+    late.getByText("Rundan har redan startat.", { exact: false }),
+  ).toBeVisible();
+  await expect(late.locator(".answer")).toHaveCount(0);
+
   await a.screenshot({
     path: "test-results/student-mobile.png",
     fullPage: true,
@@ -75,6 +93,8 @@ test("teacher + two mobile students: live answers, refresh, round results, next 
   await page.getByRole("button", { name: "Starta nästa runda" }).click();
   await expect(a.locator(".answer")).toHaveCount(4);
   await expect(a.getByText("DIN STREAK · RUNDA 2")).toBeVisible();
+  await expect(late.locator(".answer")).toHaveCount(4);
+  await lateContext.close();
   await page.getByRole("button", { name: "Glosbanken", exact: true }).click();
   await page.getByRole("button", { name: "+ Lägg till glosa" }).click();
   await page.getByLabel("Engelska", { exact: true }).fill("browser entry");
